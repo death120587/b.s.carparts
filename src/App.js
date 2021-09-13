@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import '../node_modules/antd/dist/antd.css';
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter
+} from "react-router-dom"
+import MainLayouyt from './Components/Layouts/MainLayout';
+import Home from './Components/Home';
+import BrandList from './Components/References/Brands/List';
+import ModelList from './Components/References/Models/List';
+import GoodsList from './Components/References/Goods/List';
 
-function App() {
+
+function App(props) {
+  const { history } = props;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <MainLayouyt>
+            <Switch>
+              <Route history={history} path='/home' component={Home} />
+              <Route history={history} path='/brands' component={BrandList} />
+              <Route history={history} path='/models' component={ModelList} />
+              <Route history={history} path='/goods' component={GoodsList} />
+              <Redirect from='/' to='/home'/>
+            </Switch>
+          </MainLayouyt>
+        </div>
   );
 }
 
-export default App;
+export default withRouter(App);
