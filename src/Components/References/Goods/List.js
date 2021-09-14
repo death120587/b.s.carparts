@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Avatar } from 'antd';
+import { List } from 'antd';
 import GoodsRequest from '../../../Requests/Goods';
 
 class GoodsList extends React.Component {

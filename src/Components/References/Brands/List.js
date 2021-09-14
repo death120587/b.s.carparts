@@ -1,40 +1,52 @@
-import React from 'react';
-import { List, Avatar } from 'antd';
+import React, { useState, useEffect, useMemo } from 'react';
+import { List, Button, Modal } from 'antd';
 import BrandRequest from '../../../Requests/Brands';
+import BrandEditor from './Editor';
+import BrandContext from '../../../BrandContext';
 
-class BrandList extends React.Component {
-    constructor(props) {
-        super(props);
+const BrandList = () => {
+    const [brandList, setBrandList] = useState([]);
+    const [isModalVisible, setMadalVisibility] = useState(false);
+    const [brandName, setBrandName] = useState('');
+    const requests = useMemo(() => new BrandRequest(), []);
 
-        this.state = {
-            brandList: []
-        };
-
-        this.request = new BrandRequest();
+    const handleOk = () => {
+        requests.createBrand({brandName, setBrandName, brandList, setBrandList});
+        setMadalVisibility(false);
     }
 
-    componentDidMount(){
-        this.request.getBrands(this);
+    const handleCancel = () => {
+        setMadalVisibility(false);
     }
 
-    render() {
-        let {brandList} = this.state;
-        return (
-        <List
-            itemLayout="horizontal"
-            dataSource={brandList}
-            renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    key={item.id}
-                    title={item.name}
-                    //description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                  />
-                </List.Item>
-              )}
-        />
-        );
-    }
-}
+    const showAddForm = () => {
+        setMadalVisibility(true)
+    };
+
+    useEffect(() => {
+        requests.getBrands({brandList, setBrandList});
+    }, [brandList, requests]);
+
+    return(
+        <BrandContext.Provider value={{brandName, setBrandName}} >
+            <Button onClick={showAddForm}>+</Button>
+            <List
+                itemLayout="horizontal"
+                dataSource={brandList}
+                renderItem={item => (
+                    <List.Item>
+                      <List.Item.Meta
+                        key={item.id}
+                        title={item.name}
+                      />
+                    </List.Item>
+                  )}
+            />
+            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <BrandEditor />
+            </Modal>
+        </BrandContext.Provider>
+    );
+};
 
 export default BrandList;
