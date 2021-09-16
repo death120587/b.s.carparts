@@ -3,10 +3,10 @@ import { Input, Row, Col } from 'antd';
 import BrandContext from '../../../BrandContext';
 
 const BrandEditor = () => {
-    const {brandName, setBrandName} = useContext(BrandContext);
+    const {editingBrand, setEditBrand} = useContext(BrandContext);
 
     const onChangeName = (e) => {
-        setBrandName(e.target.value);
+        setEditBrand({id: editingBrand.id, name: e.target.value});
     }
 
     return (
@@ -14,7 +14,7 @@ const BrandEditor = () => {
             <Row justify="start">
                 <Col span={4}>Назва:</Col>
                 <Col span={8}>
-                     <Input value={brandName} onChange={onChangeName} />
+                     <Input value={editingBrand.name} onChange={onChangeName} />
                 </Col>
             </Row>
         </>

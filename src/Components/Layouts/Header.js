@@ -1,31 +1,33 @@
 import React from "react";
+import { useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { Link } from "react-router-dom"
 
 const { Header } = Layout;
 
-class HeaderLayout extends React.Component 
-{
-    render() {
+const HeaderLayout = () =>
+{     
+    const location = useLocation()
+    const activeMenuKey = location.pathname.replace('/', '');
+
         return (
             <Header>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                    <Menu.Item key={0}>
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[activeMenuKey]}>
+                    <Menu.Item key={'home'}>
                         <Link to='/'>Головна</Link>
                     </Menu.Item>
-                    <Menu.Item key={1}> 
+                    <Menu.Item key={'brands'}> 
                         <Link to='/brands'>Марки авто</Link>
                     </Menu.Item>
-                    <Menu.Item key={2}> 
+                    <Menu.Item key={'models'}> 
                         <Link to='/models'>Моделі авто</Link>
                     </Menu.Item>
-                    <Menu.Item key={3}> 
+                    <Menu.Item key={'goods'}> 
                         <Link to='/goods'>Товари</Link>
                     </Menu.Item>
                 </Menu>
             </Header>
         );
-    }
 }
 
 export default HeaderLayout;
