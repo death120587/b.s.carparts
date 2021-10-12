@@ -84,11 +84,11 @@ const BrandList = () => {
     /**
      * Create "Brand" request
      */
-    const createBrand = () =>  {        
+    const createBrand = () =>  { 
         axios.post('/brands/create', {name: editingBrand.name})
         .then((response) => {
             clearEditingItem();
-            this.getBrands();
+            getBrands();
         });
     };
 
